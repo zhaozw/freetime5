@@ -1,0 +1,48 @@
+curl http://172.16.4.15:8000/api/chat/test_http_chat
+curl http://172.16.4.15:8000/api/chat/test_http_chat2
+curl http://172.16.4.15:8000/api/chat/test_http_chat3
+curl http://172.16.4.15:8000/api/chat/test_http_chat2\?word\=fuck_you
+
+curl http://172.16.4.15:8000/api/chat/test_http_chat4\?userId\=10000&targetUserId=10001
+
+
+redis-cli -h 192.168.10.18 -p 8004
+select 8/7 (user)
+eval "return redis.call('keys','chat*')" 0
+eval "return redis.call('del',unpack(redis.call('keys',ARGV[1])))" 0 "chat*"
+select 1（mix）
+eval "return redis.call('del',unpack(redis.call('keys',ARGV[1])))" 0 "chat*"
+eval "return redis.call('del',unpack(redis.call('keys',ARGV[1])))" 0 "sns*"
+
+
+==文本
+{'cmd': 'chat', 'params': {'action': 'send_message', 'userId': 10000, 'gameId': 8886, 'msgType': 0, 'targetUserId': 10001, 'sn': 1, 'content': '{"text":"hello"}'}}
+{'cmd': 'chat', 'result': {'action': 'send_message', 'sn': '1', 'time': 1520863048142, 'msgId': '4cdc773d-25fd-11e8-bf22-685b3584cea8', 'status': 'ok'}}
+{'cmd': 'chat', 'result': {'action': 'receive_message', 'msgId': '4cdc773d-25fd-11e8-bf22-685b3584cea8', 'content': {'time': 1520863048142, 'userId': 10000, 'targetUserId': 10001, 'msgType': 0, 'content': '{"text":"hello"}'}}}
+==游戏邀请
+{{'cmd': 'chat', 'params': {'action': 'send_message', 'userId': 10000, 'targetUserId': 10001, 'gameId': 9993, 'msgType': 2, 'sn': 1, 'content': '{"miniGameId":"6033","code":"invite"}'}}
+{'cmd': 'chat', 'result': {'action': 'send_message', 'sn': '1', 'time': 1520863763468, 'msgId': 'f73a92ab-25fe-11e8-8c96-685b3584cea8', 'status': 'ok'}}
+{'cmd': 'chat', 'result': {'action': 'receive_message', 'msgId': 'f73a92ab-25fe-11e8-8c96-685b3584cea8', 'content': {'time': 1520863763468, 'userId': 10000, 'targetUserId': 10001, 'msgType': 2, 'content': '{"miniGameId":"6033","code":"invite"}'}}}
+==游戏应答
+{'cmd': 'chat', 'params': {'action': 'send_message', 'userId': 10000, 'targetUserId': 10001, 'gameId': 9993, 'msgType': 3, 'sn': 1, 'content': '{"msgId":"f73a92ab-25fe-11e8-8c96-685b3584cea8","code":"accept"}'}}
+{'cmd': 'chat', 'result': {'action': 'send_message', 'sn': '1', 'time': 1520863763468, 'msgId': u'f73a92ab-25fe-11e8-8c96-685b3584cea8', 'status': 'ok'}}
+{'cmd': 'chat', 'result': {'action': 'receive_message', 'msgId': u'd562de23-2600-11e8-8623-685b3584cea8', 'content': {'time': 1520864565684, 'userId': 10000, 'targetUserId': 10001, 'msgType': 3, 'content': '{"miniGameId":"6033","code":"accept"}'}}}
+==再来一局
+{'cmd': 'chat', 'params': {'action': 'again_game', 'userId': 10000, 'gameId': 9993, 'targetUserId': 10001, 'miniGameId': 6033}}
+{'cmd': 'chat', 'result': {'action': 'again_game', 'msgId': '10000-10001-1520866211396', 'ok': 1}}
+{'cmd': 'chat', 'result': {'action': 'again_game', 'fromUserId': 10000, 'miniGameId': 6033, 'msgId': '10000-10001-1520866211396'}}
+==再来一局应答
+{'cmd': 'chat', 'params': {'action': 'answer_again_game', 'userId': 10000, 'gameId': 9993, 'targetUserId': 10001, 'msgId': '10000-10001-1520866806727', 'code': 'accept'}}
+{'cmd': 'chat', 'result': {'action': 'answer_again_game', 'msgId': '10000-10001-1520866806727', 'code': 'accept', 'ok': 1}}
+{'cmd': 'chat', 'result': {'action': 'answer_again_game', 'fromUserId': 10000, 'code': 0, 'msgId': '10000-10001-1520866806727'}}
+==换个游戏
+{'cmd': 'chat', 'result': {'action': 'change_game', 'fromUserId': 10000}}
+==get_chat_record
+{'cmd': 'chat', 'params': {'action': 'get_chat_record', 'userId': 10000, 'gameId': 9993, 'targetUserIds': [10001, 10002]}}
+{'cmd': 'chat', 'result': {'action': 'chat_record', 'records': {10001: [{'msgId': u'10000-10001-1520936376549', 'time': 1520936376549, u'userId': 10000, u'targetUserId': 10001, u'msgType': 0, u'content': u'{"text":"hello"}'}, {'msgId': u'10000-10001-1520936376563', 'time': 1520936376563, u'userId': 10000, u'targetUserId': 10001, u'msgType': 3, u'content': u'{"miniGameId":"6033","code":"refuse"}'}], 10002: [{'msgId': u'10000-10002-1520936395127', 'time': 1520936395127, u'userId': 10000, u'targetUserId': 10002, u'msgType': 0, u'content': u'{"text":"hello"}'}, {'msgId': u'10000-10002-1520936395139', 'time': 1520936395139, u'userId': 10000, u'targetUserId': 10002, u'msgType': 3, u'content': u'{"miniGameId":"6033","code":"accept"}'}]}, 'status': 'ok'}}
+==sync_chat_record
+{'cmd': 'chat', 'params': {'action': 'get_chat_record', 'userId': 10000, 'gameId': 9993, 'targetUserId': 10001, 'messageIds': ['10000-10001-1520936376549', '10000-10001-1520936376563']}}
+{'cmd': 'chat', 'result': {'action': 'chat_record', 'records': [{u'time': 1520936376549, u'userId': 10000, u'targetUserId': 10001, u'msgType': 0, u'content': u'{"text":"hello"}'}, {u'time': 1520936376563, u'userId': 10000, u'targetUserId': 10001, u'msgType': 3, u'content': u'{"miniGameId":"6033","code":"refuse"}'}], 'status': 'ok'}}
+==get_next_chat_record
+{'cmd': 'chat', 'params': {'action': 'get_chat_record', 'userId': 10000, 'gameId': 9993, 'targetUserIds': [10001, 10002], 'messageIds': ['10000-10001-1520936376563', '10000-10002-1520936395127']}}
+{'cmd': 'chat', 'result': {'action': 'chat_record', 'records': {10001: [], 10002: [{'msgId': u'10000-10002-1520936395139', 'time': 1520936395139, u'userId': 10000, u'targetUserId': 10002, u'msgType': 3, u'content': u'{"miniGameId":"6033","code":"accept"}'}]}, 'status': 'ok'}}

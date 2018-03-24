@@ -1,0 +1,9 @@
+{
+	"gameId": 605,
+	"type": "game",
+	"namespace": "bridge",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

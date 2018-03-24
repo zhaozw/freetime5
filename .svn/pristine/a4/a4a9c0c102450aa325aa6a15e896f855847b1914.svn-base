@@ -1,0 +1,9 @@
+{
+	"gameId": 603,
+	"type": "game",
+	"namespace": "fst",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

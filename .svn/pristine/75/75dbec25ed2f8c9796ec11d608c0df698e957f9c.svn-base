@@ -1,0 +1,9 @@
+{
+	"gameId": 612,
+	"type": "game",
+	"namespace": "quickmaze",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

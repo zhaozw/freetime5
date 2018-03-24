@@ -1,0 +1,9 @@
+{
+	"gameId": 607,
+	"type": "game",
+	"namespace": "boxxo",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

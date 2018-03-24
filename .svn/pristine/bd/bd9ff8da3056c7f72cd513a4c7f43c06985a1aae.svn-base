@@ -1,0 +1,9 @@
+{
+	"gameId": 701,
+	"type": "game",
+	"namespace": "xuezhan",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

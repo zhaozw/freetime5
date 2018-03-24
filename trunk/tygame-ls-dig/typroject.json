@@ -1,0 +1,9 @@
+{
+	"gameId": 608,
+	"type": "game",
+	"namespace": "dig",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}

@@ -1,0 +1,9 @@
+{
+	"gameId": 602,
+	"type": "game",
+	"namespace": "flipjoy",
+	"dependents": [
+		"freetime5",
+		"tuyoo5"
+	]
+}
